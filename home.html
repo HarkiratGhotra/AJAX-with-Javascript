@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>
+		AJAX website
+	</title>
+</head>
+<body>
+	<button class="btn" onclick="request('example.txt',cfunction)">Get User text_file</button>
+	<button class="btn1" onclick="request('sample.json',cfunction)">Get Json file</button>
+	<button class="btn2" onclick="request('https://api.github.com/users', cfunction)">Get user API</button>
+	<div class="demo"></div>
+<script>
+	var btn= document.getElementsByClassName("btn")[0];
+	var demo = document.getElementsByClassName("demo")[0];
+	function request(url, cfunction){
+		console.log("click");
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET",url,true);
+		console.log("reach");
+		xhr.onload = function(){
+			if(this.status ==200){
+				console.log("httprequest execute");
+				cfunction(this);
+			}
+		}
+		xhr.send();
+		//console.log(url);
+	}
+	function cfunction(url,xhr){
+		if(url == 'example.txt'){
+			console.log(xhr.responseText);
+			demo.innerHTML="";
+			demo.innerHTML += xhr.responseText;
+		}	else if(url == 'sample.json'){
+				demo.innerHTML ="";
+				var output = JSON.parse(xhr.responseText);
+				console.log(output);
+				for (var i=0; i<output.length; i++){
+					demo.innerHTML += '<ul>'+
+									'<li>'+
+									output[i].name+
+									'</li>'+
+									'</ul>';
+				}
+		}	else {
+				console.log(xhr.responseText);
+				var output = JSON.parse(xhr.responseText);
+				console.log(output);
+				var p = document.getElementsByClassName("demo")[0];
+				p.innerHTML ="";
+				for (var i=0;i<output.length;i++){
+				p.innerHTML += output[i].id +'<br>';
+				}
+			}
+	}
+	
+	
+	/*btn.addEventListener("click",de('helo', cfunction));*/
+	/*
+	function request1(p){
+		console.log(p);
+		/*var xhr = new XMLHttpRequest();
+		//console.log(xhr.readyState);
+		xhr.open("GET","example.txt",true);
+		xhr.onload = function (){
+			if(this.status == 200){
+				console.log("Hello");
+				console.log(this.responseText);
+				var output = this.responseText;
+				document.getElementsByClassName("demo")[0].innerHTML="";
+				document.getElementsByClassName("demo")[0].innerHTML += output;
+			}
+		}
+		xhr.send();
+	}
+	function request(url, cFunction){
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET",+str+,true);
+		xhr.onload = function (){
+			if(this.status == 200){
+				console.log("Hello");
+			}
+		}
+	}*/
+</script>
+
+</body>
+</html>
